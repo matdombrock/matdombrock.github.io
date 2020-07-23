@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="IntroductionThis guide will attempt to explain how we can move (translate) an object (set or shape) in a two dimensional matrix which is a key concept of graphics programming. NOTE: All of the code in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Moving An Object Within A Matrix">
+<meta property="og:url" content="http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/index.html">
+<meta property="og:site_name" content="Mathieu Dombrock">
+<meta property="og:description" content="IntroductionThis guide will attempt to explain how we can move (translate) an object (set or shape) in a two dimensional matrix which is a key concept of graphics programming. NOTE: All of the code in">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-12-05T02:30:37.000Z">
+<meta property="article:modified_time" content="2020-07-23T01:30:55.130Z">
+<meta property="article:author" content="Mathieu Dombrock">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Moving An Object Within A Matrix</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/matdombrock" target="_blank" rel="noopener">Code</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/04/VueJS-Components-Guide/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/04/Detecting-A-Key-Press-In-JavaScript/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&text=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&is_video=false&description=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Moving An Object Within A Matrix&body=Check out this article: http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&name=Moving An Object Within A Matrix&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&t=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Origins"><span class="toc-number">2.</span> <span class="toc-text">Origins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objects"><span class="toc-number">3.</span> <span class="toc-text">Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Moving-Objects"><span class="toc-number">4.</span> <span class="toc-text">Moving Objects</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-Rules"><span class="toc-number">4.1.</span> <span class="toc-text">Creating Rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-Rules"><span class="toc-number">4.2.</span> <span class="toc-text">Using Rules</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-Example"><span class="toc-number">5.</span> <span class="toc-text">Code Example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Moving An Object Within A Matrix
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Mathieu Dombrock</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-05T02:30:37.000Z" itemprop="datePublished">2019-12-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This guide will attempt to explain how we can move (translate) an object (set or shape) in a two dimensional matrix which is a key concept of graphics programming.</p>
+<p><strong>NOTE:</strong> <em>All of the code in this guide is in a JavaScript syntax but the concepts should apply to any language you want to write in. JavaScript was chosen because it is commonly understood and makes working with arrays and matrices fairly easy. However, I have made an attempt to keep the example code as verbose as possible so it will make some sense to people who do not know JavaScript.</em></p>
+<p>Say we have an 8x4 2D binary matrix:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">00000000</span><br><span class="line">00000000</span><br><span class="line">00000000</span><br><span class="line">00000000</span><br></pre></td></tr></table></figure>
+<p>To bring it into less abstract terms, imagine this as a 2D matrix of LED bulbs. Basically a very low resolution display.</p>
+<h2 id="Origins"><a href="#Origins" class="headerlink" title="Origins"></a>Origins</h2><p>It might be tempting to call the bottom left entity “1,1” or “0,0” and call the top right entity “7,3” or “8,4”. After all this is the way that we learn coordinates in school. Usually our origin is at the bottom-left. The X axis goes right and the Y axis goes up.</p>
+<p>This will technically work in computing but it’s not the way things are typically done due to the long and complicated history of early displays. Some would argue that this method (origin at the top-left) makes more sense than than having the origin at the bottom-left. This after all is the way that we read in English; top-left to bottom-right. This is also typically how we store, read, and parse data in computing. It also allows us to treat the first entity of our matrix as the origin which is pretty neat. </p>
+<p>This can be hard to wrap your head around if you are used to the way that graphing works in traditional mathematics. To put it simply though, all we are really doing is inverting our Y axis. </p>
+<p>The obvious down side to this is that in computing we typically use a lot of math. Even more so in computer graphics. So for instance when drawing something using sin, cos or tan you need to invert your y-axis parameter or you will have an inverted result. This of course won’t break any of your math but you need to be a little more careful because of it.</p>
+<p>Anyway, the purpose of this guide is not to debate this topic (though that might be a good article to write at some point). So moving forward, let’s assume that our origin is at the top-left and let’s call that origin “0,0” since we are working with computing and programmers like counting from zero (<a href="http://lua-users.org/wiki/CountingFromOne" target="_blank" rel="noopener">unless you &lt;3 Lua</a>).</p>
+<p>So let’s call the first matrix entity “0,0” and the last “7,3”.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> X-------</span><br><span class="line">Y00000000</span><br><span class="line">|00000000</span><br><span class="line">|00000000</span><br><span class="line">|00000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><p>Now that we’ve agreed on our origins and axes we can work on defining an “object”. An “object” in our case is just going to be a collection (specifically a 2D array) of X,Y coordinates.</p>
+<p>Our object might look something like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">object = [</span><br><span class="line">	[<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">2</span>,<span class="number">0</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>We can “draw” to our binary matrix by changing the values from 0 to 1. If this were an LED matrix display we could imagine that 0 means the lights are off and 1 means the lights are on.</p>
+<p>Drawn onto our matrix this would something like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">11100000</span><br><span class="line">00000000</span><br><span class="line">00000000</span><br><span class="line">00000000</span><br></pre></td></tr></table></figure>
+<p>Let’s try something a little more complex:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">object = [</span><br><span class="line">	[<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">1</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">2</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">1</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">2</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">2</span>],</span><br><span class="line">	[<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">	[<span class="number">2</span>,<span class="number">2</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>Now we have drawn a simple 3*3 square at our origin. It might not look like a square because of the font being used but rest assured it is.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">11100000</span><br><span class="line">11100000</span><br><span class="line">11100000</span><br><span class="line">00000000</span><br></pre></td></tr></table></figure>
+<p>If this is hard to conceptualize, try thinking of the object we defined like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">object = [</span><br><span class="line">	[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2</span>,<span class="number">2</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="Moving-Objects"><a href="#Moving-Objects" class="headerlink" title="Moving Objects"></a>Moving Objects</h2><p>When moving or “translating” (as they call it in geometry) and object or “shape/set” (as they call it in geometry) in a 2D matrix there are 4 basic directions that you can move. Up, down, left and right. Technically you could argue that it’s possible to move in 8 directions, because you can also move diagonally but since that is really just doing two translations so I don’t think that counts.</p>
+<p>Consider how each entity in our object is a pair of X,Y coordinates. You can think of each of these entities as a “bit” or “part” or “pixel” or “chunk” or “atom” of the object (or whatever makes sense to you). In this specific case they are in fact representing bits, but this concept remains the same no matter what they represent. To keep this guide open ended I will refer to them as “chunks”.</p>
+<h3 id="Creating-Rules"><a href="#Creating-Rules" class="headerlink" title="Creating Rules"></a>Creating Rules</h3><p>In order to move an object within our matrix, we need to move each “chunk” by some given amount  in some given direction. Since all we are doing right now is translating the object, this is actually really easy because we’re not worried about changes in rotation or scale at this point. What that means is that each “chunk” of the object will be moving the same distance in the same direction.</p>
+<p>So let’s make some rules about what it actually means to move something in a matrix:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Up: y+1</span><br><span class="line">Down: y-1</span><br><span class="line">Left: x-1</span><br><span class="line">Right: x+1</span><br></pre></td></tr></table></figure>
+
+<p>Wait a second! Have we already forgotten that we have to flip our Y axis when we do math? It looks like we have (or maybe that was just to make a point). We have to remember that <a href="https://www.youtube.com/watch?v=6KqL4Uh2nHo" target="_blank" rel="noopener"><strong>up is now down and down is now up</strong></a>. </p>
+<p>So what I actually meant is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Up: y-1</span><br><span class="line">Down: y+1</span><br><span class="line">Left: x-1</span><br><span class="line">Right: x+1</span><br></pre></td></tr></table></figure>
+<p>To demonstrate what I wrote before about diagonals not being real translations consider this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Up-Right: y-1 + x+1 or Up + Right </span><br><span class="line">Down-Right: y+1 + x+1 or Down + Right</span><br><span class="line">Up-Left: y-1 + x-1 or Up + Left</span><br><span class="line">Down-Left: y+1 + 1-x or Down + Left</span><br></pre></td></tr></table></figure>
+<p>You can also think of these rules as functions:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">up</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [x,y<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">down</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [x,y+<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">left</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [x<span class="number">-1</span>,y]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">right</span>(<span class="params">x,y</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [x+<span class="number">1</span>,y]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We could also write these functions to take our object entities (coordinate pairs) as a single parameter:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">down</span>(<span class="params">coords</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [coords[<span class="number">0</span>],coords[<span class="number">1</span>]+<span class="number">1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Using-Rules"><a href="#Using-Rules" class="headerlink" title="Using Rules"></a>Using Rules</h3><p>So how do we actually make use these rules we created? This is where programming comes into play.</p>
+<p>Like I was saying, to translate and object in a matrix, we just need to move all of it’s “chunks” in the same direction by the same distance. So to move an object we simply apply our rule for the given direction to all of the entities (coordinate pairs) in our object.</p>
+<p>Consider the following code:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is JavaScript and you can run it</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">down</span>(<span class="params">coords</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [coords[<span class="number">0</span>],coords[<span class="number">1</span>]+<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> object = [</span><br><span class="line">	[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2</span>,<span class="number">2</span>]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// move the object</span></span><br><span class="line"><span class="keyword">var</span> length = object.length</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; length; i++)&#123;</span><br><span class="line">	object[i] = down(object[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We could also make a function to move an entire object at once:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveObjectDown</span>(<span class="params">object</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; object.length; i++)&#123;</span><br><span class="line">		object[i] = down(object[i])</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> object</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We could print the object onto the matrix with the following code:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printMatrix</span>(<span class="params">length, height, object</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> y = <span class="number">0</span>; y &lt; height; y++)&#123;</span><br><span class="line">		<span class="keyword">var</span> out = <span class="string">""</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="number">0</span>; x &lt; length; x++)&#123;</span><br><span class="line">			<span class="keyword">var</span> isOn = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; object.length; i++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(object[i][<span class="number">0</span>]==x &amp;&amp; object[i][<span class="number">1</span>]==y)&#123;</span><br><span class="line">					isOn = <span class="literal">true</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(isOn)&#123;</span><br><span class="line">				out += <span class="string">"1"</span></span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				out += <span class="string">"0"</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">console</span>.log(y+<span class="string">": "</span>+out)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">printMatrix(<span class="number">8</span>,<span class="number">4</span>,object)</span><br></pre></td></tr></table></figure>
+<h2 id="Code-Example"><a href="#Code-Example" class="headerlink" title="Code Example"></a>Code Example</h2><p>Putting this all together we could try the code:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is JavaScript and you can run it</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printMatrix</span>(<span class="params">length, height, object</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> y = <span class="number">0</span>; y &lt; height; y++)&#123;</span><br><span class="line">		<span class="keyword">var</span> out = <span class="string">""</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> x = <span class="number">0</span>; x &lt; length; x++)&#123;</span><br><span class="line">			<span class="keyword">var</span> isOn = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; object.length; i++)&#123;</span><br><span class="line">				<span class="keyword">if</span>(object[i][<span class="number">0</span>]==x &amp;&amp; object[i][<span class="number">1</span>]==y)&#123;</span><br><span class="line">					isOn = <span class="literal">true</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(isOn)&#123;</span><br><span class="line">				out += <span class="string">"1"</span></span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				out += <span class="string">"0"</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">console</span>.log(y+<span class="string">": "</span>+out)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveObjectDown</span>(<span class="params">object</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; object.length; i++)&#123;</span><br><span class="line">		object[i] = down(object[i])</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> object</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">down</span>(<span class="params">coords</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> [coords[<span class="number">0</span>],coords[<span class="number">1</span>]+<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> object = [</span><br><span class="line">	[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],</span><br><span class="line">	[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2</span>,<span class="number">2</span>]</span><br><span class="line">]</span><br><span class="line"><span class="comment">// show the default matrix</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"starting matrix"</span>)</span><br><span class="line">printMatrix(<span class="number">8</span>,<span class="number">4</span>,object)</span><br><span class="line"></span><br><span class="line"><span class="comment">// move the object down</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"move the object down"</span>)</span><br><span class="line">object = moveObjectDown(object)</span><br><span class="line">printMatrix(<span class="number">8</span>,<span class="number">4</span>,object)</span><br><span class="line"></span><br><span class="line"><span class="comment">/// move the object down again</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"move the object down again"</span>)</span><br><span class="line">object = moveObjectDown(object)</span><br><span class="line">printMatrix(<span class="number">8</span>,<span class="number">4</span>,object)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>We have now translated an object in a 2D matrix. You can easily apply what we did above to move the object in any direction and by any amount you want. Based on this, how do you think you would rotate or scale an object? How can you translate a 3D object in a 3D matrix? These are all questions for another guide.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/matdombrock" target="_blank" rel="noopener">Code</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Origins"><span class="toc-number">2.</span> <span class="toc-text">Origins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objects"><span class="toc-number">3.</span> <span class="toc-text">Objects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Moving-Objects"><span class="toc-number">4.</span> <span class="toc-text">Moving Objects</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-Rules"><span class="toc-number">4.1.</span> <span class="toc-text">Creating Rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-Rules"><span class="toc-number">4.2.</span> <span class="toc-text">Using Rules</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-Example"><span class="toc-number">5.</span> <span class="toc-text">Code Example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&text=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&is_video=false&description=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Moving An Object Within A Matrix&body=Check out this article: http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&title=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&name=Moving An Object Within A Matrix&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2019/12/04/Moving-An-Object-Within-A-Matrix/&t=Moving An Object Within A Matrix" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    Mathieu Dombrock
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="https://github.com/matdombrock" target="_blank" rel="noopener">Code</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
